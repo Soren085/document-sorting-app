@@ -4,14 +4,14 @@ var electron_1 = require("electron");
 var path = require("path");
 var url = require("url");
 var fs = require("fs");
-var fileManager = require('../../src/utils/file');
 var win;
 function createWindow() {
     win = new electron_1.BrowserWindow({
         width: 800,
         height: 600,
         webPreferences: {
-            nodeIntegration: true
+            nodeIntegration: true,
+            enableRemoteModule: true
         }
     });
     win.loadURL(url.format({
@@ -39,6 +39,13 @@ electron_1.app.on('window-all-closed', function () {
         electron_1.app.quit();
     }
 });
+/* Channels */
+electron_1.ipcMain.on('navigateDirectory', function (event, returnedPath) {
+    process.chdir(returnedPath);
+    getImages();
+    getDirectory();
+});
+/* Functions */
 function getImages() {
     var cwd = process.cwd();
     fs.readdir('.', { withFileTypes: true }, function (err, files) {
@@ -69,14 +76,3 @@ function getDirectory() {
         }
     });
 }
-electron_1.ipcMain.on('navigateDirectory', function (event, returnedPath) {
-    process.chdir(returnedPath);
-    getImages();
-    getDirectory();
-});
-function createFolder() {
-    fileManager.exportFile();
-}
-electron_1.ipcMain.on('createFolder', function (event, arg) {
-    createFolder();
-});

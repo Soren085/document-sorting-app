@@ -19,6 +19,7 @@ export class ImagesService {
       this.directory.next(directory);
     });
   }
+
   public navigateDirectory(path): void {
     electron.ipcRenderer.send('navigateDirectory', path);
   }

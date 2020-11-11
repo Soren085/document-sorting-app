@@ -2,7 +2,6 @@ import { app, BrowserWindow, ipcMain } from 'electron';
 import * as path from 'path';
 import * as url from 'url';
 import * as fs from 'fs';
-const fileManager = require('../../src/utils/file');
 
 let win: BrowserWindow;
 
@@ -11,7 +10,8 @@ function createWindow(): void {
     width: 800,
     height: 600,
     webPreferences: {
-      nodeIntegration: true
+      nodeIntegration: true,
+      enableRemoteModule: true
     }
   });
   win.loadURL(
@@ -49,6 +49,16 @@ app.on('window-all-closed', () => {
     app.quit();
   }
 });
+
+/* Channels */
+
+ipcMain.on('navigateDirectory', (event, returnedPath) => {
+  process.chdir(returnedPath);
+  getImages();
+  getDirectory();
+});
+
+/* Functions */
 
 function getImages(): void {
   const cwd = process.cwd();
@@ -88,18 +98,3 @@ function getDirectory(): void {
     }
   });
 }
-
-ipcMain.on('navigateDirectory', (event, returnedPath) => {
-  process.chdir(returnedPath);
-  getImages();
-  getDirectory();
-});
-
-
-function createFolder(): void {
-  fileManager.exportFile();
-}
-
-ipcMain.on('createFolder', (event, arg) => {
-  createFolder();
-});

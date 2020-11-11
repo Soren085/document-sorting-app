@@ -2,6 +2,7 @@
 
 # compiled output
 /document-sorting-app-win32-x64
+/electron/dist
 /dist
 /tmp
 /out-tsc

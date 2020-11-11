@@ -1,18 +1,20 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { ImagesService } from 'src/app/core/services/images/images.service';
+import { FileManagerService } from 'src/app/core/services/file-manager/file-manager.service';
 
 @Component({
   selector: 'app-browser',
-  templateUrl: './browser.component.html',
-  styleUrls: ['./browser.component.scss'],
+  templateUrl: './explorer.component.html',
+  styleUrls: ['./explorer.component.scss'],
 })
-export class BrowserComponent implements OnInit {
+export class ExplorerComponent implements OnInit {
   images: string[];
   directory: string[];
 
   constructor(
     private imagesService: ImagesService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private fileManager: FileManagerService,
   ) {}
 
   ngOnInit(): void {
@@ -26,9 +28,14 @@ export class BrowserComponent implements OnInit {
 
       this.cdr.detectChanges();
     });
+    this.imagesService.navigateDirectory('.');
   }
 
-  navigateDirectory(path): void {
+  public navigateDirectory(path): void {
     this.imagesService.navigateDirectory(path);
+  }
+
+  public selectFolder(): void {
+    this.fileManager.selectFolder();
   }
 }

@@ -3,15 +3,17 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { BrowserComponent } from './core/components/browser/browser.component';
+import { CommonModule } from '@angular/common';
+import { ScreensModule } from './screens/screens.module';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    BrowserComponent
+    AppComponent
   ],
   imports: [
+    ScreensModule,
     BrowserModule,
+    CommonModule,
     AppRoutingModule
   ],
   providers: [],
