@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { IpcRenderer } from 'electron';
+import { ImagesService } from './core/services/images/images.service';
 
 @Component({
   selector: 'app-root',
@@ -11,7 +12,7 @@ export class AppComponent {
 
   private ipc: IpcRenderer;
 
-  constructor() {
+  constructor(private imagesService: ImagesService) {
     if ((window as any).require) {
       try {
         this.ipc = (window as any).require('electron').ipcRenderer;
